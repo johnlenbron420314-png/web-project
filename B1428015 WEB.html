@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>排序實驗室｜一步一步，看懂排序</title>
+<style>
+:root{--ink:#203d38;--muted:#65776e;--green:#17694f;--line:#dce4da;--orange:#d28029}*{box-sizing:border-box}body{margin:0;background:#f5f5ed;color:var(--ink);font-family:system-ui,"Microsoft JhengHei",sans-serif}main{max-width:1120px;margin:auto;padding:28px 24px}nav{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:22px}nav b{letter-spacing:2px}nav span,.eyebrow{font-size:12px;letter-spacing:2px;color:var(--muted)}header{padding:44px 0 26px}h1{font-size:clamp(30px,5vw,50px);letter-spacing:-1px;margin:12px 0}p{line-height:1.8;color:var(--muted)}header p{margin:0}button,input,select{font:inherit}button,select,input{border:1px solid var(--line);border-radius:10px;padding:11px 14px;background:#fff;color:var(--ink)}button{cursor:pointer;font-weight:650}button:hover{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}.primary{background:var(--green);color:white;border-color:var(--green)}.layout{display:grid;grid-template-columns:280px 1fr;gap:20px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}h2{font-size:18px;margin:0 0 20px}label{display:block;font-size:13px;font-weight:650;margin:20px 0 8px}input[type=text],select{width:100%}.hint{font-size:12px;line-height:1.7;color:var(--muted);margin:8px 0}.row{display:flex;gap:8px;flex-wrap:wrap}.side .row button{flex:1}.side input[type=range]{width:100%;accent-color:var(--green)}.error{color:#a52c2c;font-size:13px;min-height:20px}.vizhead{display:flex;justify-content:space-between;align-items:center;gap:12px}.badge{background:#eef5e9;border-radius:20px;padding:7px 12px;font-size:12px}.bars{height:280px;display:flex;align-items:flex-end;gap:clamp(3px,1vw,12px);padding:38px 0 26px;border-bottom:1px solid var(--line);margin:20px 0}.bar{flex:1;background:#c9d8cd;min-width:0;border-radius:7px 7px 0 0;position:relative;transition:height .22s,background .22s;min-height:8px}.bar b{position:absolute;top:-25px;width:100%;text-align:center;font-size:clamp(10px,1.5vw,15px)}.bar small{position:absolute;bottom:-23px;width:100%;text-align:center;color:var(--muted);font-size:10px}.bar.compare{background:#eab968}.bar.selected{background:#8e9ccb}.bar.done{background:#368067}.legend{font-size:12px;color:var(--muted);display:flex;gap:15px;flex-wrap:wrap}.legend span:before{content:"";display:inline-block;width:9px;height:9px;background:var(--c);border-radius:50%;margin-right:5px}.explain{background:#f3f6ef;border-radius:12px;padding:18px;margin:20px 0;min-height:80px;line-height:1.7}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.stat{border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;color:var(--ink);margin-top:6px}.learn{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.learn h2{margin-bottom:8px}.learn p{font-size:14px;margin-bottom:0}details{margin-top:20px}summary{cursor:pointer;font-weight:650}pre{white-space:pre-wrap;font:14px/1.9 system-ui;color:var(--muted)}footer{font-size:12px;color:var(--muted);margin:24px 0}#progress{width:100%;accent-color:var(--green);height:5px}.note{font-size:12px;margin:14px 0 0}@media(max-width:760px){main{padding:20px 16px}.layout,.learn{grid-template-columns:1fr}header{padding-top:28px}.panel{padding:20px}.bars{height:240px}nav span{font-size:10px}.side label{margin-top:12px}}@media(prefers-reduced-motion:reduce){.bar{transition:none}}
+</style></head><body><main>
+<nav><b>◫ 排序實驗室</b><span>ALGORITHM PLAYGROUND / 01</span></nav>
+<header><div class="eyebrow">把抽象的程式，變成看得見的步驟</div><h1>一步一步，看懂排序。</h1><p>數字怎麼從亂亂的變整齊？自己試一次，就知道。</p></header>
+<div class="layout"><section class="panel side" aria-label="設定"><h2>01 ／ 設定你的實驗</h2><label for="algorithm">排序方法</label><select id="algorithm"><option value="selection">選擇排序 Selection Sort</option><option value="bubble">泡泡排序 Bubble Sort</option></select><label for="numbers">想排序的數字</label><input id="numbers" type="text" value="42, 18, 65, 9, 33, 54, 25, 77" spellcheck="false"><p class="hint">輸入 2～16 個整數，範圍 1～99。<br>用逗號或空格隔開，可有重複數字。</p><div class="row"><button id="apply" class="primary">套用數字</button><button id="random">隨機產生</button></div><div id="error" class="error" role="alert"></div><label for="speed">播放速度：<span id="speedText">一般</span></label><input id="speed" type="range" min="1" max="3" value="2"><p class="hint">第一次玩？先按「下一步」，慢慢看。</p><p class="note">修改輸入後，按「套用數字」才會開始新實驗。</p></section>
+<section class="panel"><div class="vizhead"><h2 style="margin:0">02 ／ 觀察數字排隊</h2><span id="phase" class="badge">準備好了</span></div><div id="bars" class="bars" role="img" aria-label="數字長條圖"></div><div class="legend"><span style="--c:#c9d8cd">尚未排好</span><span style="--c:#eab968">正在比較</span><span style="--c:#8e9ccb">目前最小值</span><span style="--c:#368067">位置確定</span></div><div id="explain" class="explain" aria-live="polite"></div><div class="row"><button id="play" class="primary">▶ 自動播放</button><button id="prev">← 上一步</button><button id="next">下一步 →</button><button id="reset">重新開始</button></div><div class="stats"><div class="stat">目前步驟<strong id="step">0</strong></div><div class="stat">比較次數<strong id="comparisons">0</strong></div><div class="stat">交換次數<strong id="swaps">0</strong></div></div><progress id="progress" value="0" max="1" aria-label="排序進度"></progress></section></div>
+<div class="learn"><section class="panel"><h2 id="ideaTitle"></h2><p id="idea"></p></section><section class="panel"><h2>試試看，會發現什麼？</h2><p>先輸入 <b>1, 2, 3, 4, 5</b>，再試 <b>5, 4, 3, 2, 1</b>。比較兩種方法的「比較次數」與「交換次數」！</p><p id="complexity"></p></section></div>
+<footer>學習小提醒：長條下面的小數字是位置（從 0 開始），上面的大數字才是要排序的數值。</footer>
+</main><script>
+const $=id=>document.getElementById(id);
+function createSteps(input,type){
+ const a=[...input],states=[];let comparisons=0,swaps=0;const done=new Set();
+ const push=(text,compare=[],selected=-1)=>states.push({a:[...a],text,compare,selected,done:[...done],comparisons,swaps});
+ push('準備開始！按「下一步」，一起把數字由小排到大。');
+ if(type==='selection'){
+  for(let i=0;i<a.length-1;i++){
+   let min=i;push('先把第 '+(i+1)+' 個數字 '+a[i]+' 當成目前最小值。',[],min);
+   for(let j=i+1;j<a.length;j++){
+    comparisons++;push('比較 '+a[j]+' 和目前最小值 '+a[min]+'。',[j,min],min);
+    if(a[j]<a[min]){min=j;push('找到更小的 '+a[min]+'！更新目前最小值。',[],min);}
+   }
+   if(min!==i){const x=a[i],y=a[min];[a[i],a[min]]=[a[min],a[i]];swaps++;push('把最小值 '+y+' 和 '+x+' 交換位置。',[i,min]);}
+   done.add(i);push(a[i]+' 的位置確定了！');
+  }
+ }else{
+  for(let end=a.length-1;end>0;end--){let changed=false;
+   for(let j=0;j<end;j++){
+    comparisons++;push('比較相鄰的 '+a[j]+' 和 '+a[j+1]+'。',[j,j+1]);
+    if(a[j]>a[j+1]){const x=a[j],y=a[j+1];[a[j],a[j+1]]=[a[j+1],a[j]];swaps++;changed=true;push(x+' 比 '+y+' 大，交換！讓較大的往右走。',[j,j+1]);}
+    else push('左邊沒有比較大，不需要交換。',[j,j+1]);
+   }
+   done.add(end);push(a[end]+' 已走到這一輪的最右邊，位置確定！');
+   if(!changed){push('這一整輪都沒有交換，代表已經全部排好了！');break;}
+  }
+ }
+ a.forEach((_,i)=>done.add(i));push('完成！所有數字已經由小排到大。你可以按「上一步」回顧。');return states;
+}
+let original=[42,18,65,9,33,54,25,77],states=[],position=0,timer=null;
+function stop(){clearInterval(timer);timer=null;$('play').textContent='▶ 自動播放';}
+function render(){const s=states[position];$('bars').replaceChildren();s.a.forEach((v,i)=>{const bar=document.createElement('div');bar.className='bar'+(s.done.includes(i)?' done':s.compare.includes(i)?' compare':s.selected===i?' selected':'');bar.style.height=(v/Math.max(...original)*100)+'%';const val=document.createElement('b');val.textContent=v;const idx=document.createElement('small');idx.textContent=i;bar.append(val,idx);$('bars').append(bar);});$('bars').setAttribute('aria-label','目前數字順序：'+s.a.join('、'));$('explain').textContent=s.text;$('comparisons').textContent=s.comparisons;$('swaps').textContent=s.swaps;$('step').textContent=position+' / '+(states.length-1);$('prev').disabled=position===0;$('next').disabled=position===states.length-1;$('play').disabled=position===states.length-1;$('phase').textContent=position===states.length-1?'排序完成 ✓':position===0?'準備好了':'實驗進行中';$('progress').max=states.length-1;$('progress').value=position;}
+function init(){stop();position=0;states=createSteps(original,$('algorithm').value);const selection=$('algorithm').value==='selection';$('ideaTitle').textContent=selection?'選擇排序：每次挑最小的':'泡泡排序：大的慢慢往右走';$('idea').textContent=selection?'像排隊時先找出最矮的人，把他放到最前面；再從剩下的人中找最矮的，一次確定一個位置。':'每次只看左右相鄰的兩個數字。左邊比較大就交換，一輪結束後，最大的數字就會走到右邊。';$('complexity').textContent=selection?'比較次數固定為 n(n−1)/2；時間為 Θ(n²)。n 是數字個數。':'這個版本已排序時為 Θ(n)；平均與最差為 Θ(n²)。n 是數字個數。';render();}
+function next(){if(position<states.length-1){position++;render();}if(position===states.length-1)stop();}
+function play(){timer=setInterval(next,[1200,650,220][+$('speed').value-1]);$('play').textContent='Ⅱ 暫停';}
+$('apply').onclick=()=>{const text=$('numbers').value.trim();const tokens=text.split(/[,，\s]+/);if(!text||tokens.length<2||tokens.length>16||tokens.some(t=>!/^\d+$/.test(t)||+t<1||+t>99)){$('error').textContent='請輸入 2～16 個 1～99 的整數。';return;}$('error').textContent='';original=tokens.map(Number);init();};
+$('random').onclick=()=>{original=Array.from({length:8},()=>1+Math.floor(Math.random()*99));$('numbers').value=original.join(', ');$('error').textContent='';init();};
+$('algorithm').onchange=init;$('next').onclick=()=>{stop();next();};$('prev').onclick=()=>{stop();if(position>0)position--;render();};$('reset').onclick=init;$('play').onclick=()=>timer?stop():play();$('speed').oninput=()=>{$('speedText').textContent=['慢慢看','一般','快速'][+$('speed').value-1];if(timer){stop();play();}};
+init();
+</script></body></html>
